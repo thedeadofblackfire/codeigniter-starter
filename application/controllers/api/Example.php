@@ -21,7 +21,7 @@ use Restserver\Libraries\REST_Controller;
  * @link            https://github.com/chriskacerguis/codeigniter-restserver
  */
 //class Example extends REST_Controller {
-class Example extends MY_Controller {
+class Example extends Api_Controller {
 
     function __construct()
     {
