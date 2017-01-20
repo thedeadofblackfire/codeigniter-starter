@@ -92,7 +92,8 @@
 				<div id="main-content"></div>
 				<!--<projects-list></projects-list>-->
 				
-				<main class="content js-content"></main>
+				<div class="content js-content"></div>
+				<!-- <main class="content js-content"></main> -->
 
       
                 <!-- Footer -->

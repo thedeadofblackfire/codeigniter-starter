@@ -505,6 +505,36 @@
 			_self.update({
                     isDataLoaded: true
                 });
+				
+				// When you click on a message, show it
+				document.on('click', '#main .message-list li', function(e) {
+//				$('#main .message-list li').on('click', function(e) {
+					var item = $(this),
+						target = $(e.target);
+
+					if(target.is('label')) {
+						item.toggleClass('selected');
+					} else {
+						if(messageIsOpen && item.is('.active')) {
+							cols.hideMessage();
+							cols.hideOverlay();
+						} else {
+							if(messageIsOpen) {
+								cols.hideMessage();
+								item.addClass('active');
+								setTimeout(function() {
+									cols.showMessage();
+								}, 300);
+							} else {
+								item.addClass('active');
+								cols.showMessage();
+							}
+							cols.showOverlay();
+						}
+					}
+				});
+
+	
 		
         });
 		
