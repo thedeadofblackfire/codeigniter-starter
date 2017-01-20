@@ -1,0 +1,133 @@
+<projects-list>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="btn-group pull-right m-t-15">
+                            <button type="button" class="btn btn-custom dropdown-toggle waves-effect waves-light" data-toggle="dropdown" aria-expanded="false">Settings <span class="m-l-5"><i class="fa fa-cog"></i></span></button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                            </ul>
+                        </div>
+                        <h4 class="page-title">Projects</h4>
+                    </div>
+                </div>
+				
+		   <div class="row">
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-purple btn-rounded w-md waves-effect waves-light m-b-20">Create Project</button>
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="project-sort pull-right">
+                            <div class="project-sort-item">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label>Phase :</label>
+                                        <select class="form-control input-sm">
+                                            <option>All Projects(6)</option>
+                                            <option>Complated</option>
+                                            <option>Progress</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Sort :</label>
+                                        <select class="form-control input-sm">
+                                            <option>Date</option>
+                                            <option>Name</option>
+                                            <option>End date</option>
+                                            <option>Start Date</option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div><!-- end col-->
+                </div>
+                <!-- end row -->	
+
+			<div class="row">
+				<loader if="{ !isDataLoaded }"></loader>			
+				<div if="{ isDataLoaded }" class="col-lg-4 xcard-list__card" each="{ project in projects }" data-filter="{ project.name.toLowerCase() + project.url.toLowerCase() + project.tags.toLowerCase() }">
+                        <div class="card-box project-box">
+                            <div class="label label-{ (project.class != 'custom') ? project.class : 'default' }">{ project.status }</div>
+                            <h4 class="m-t-0 m-b-5"><a href="" class="text-inverse">New Admin Design</a></h4>
+
+                            <p class="text-{ project.class } text-uppercase m-b-20 font-13">{ project.name }</p>
+                            <p class="text-muted font-13"><raw content="{ project.desc }"/></p>
+
+                            <ul class="list-inline">
+                                <li>
+                                    <h3 class="m-b-0">{ project.questions }</h3>
+                                    <p class="text-muted">Questions</p>
+                                </li>
+                                <li>
+                                    <h3 class="m-b-0">{ project.comments }</h3>
+                                    <p class="text-muted">Comments</p>
+                                </li>
+                            </ul>
+
+                            <div class="project-members m-b-20">
+                                <span class="m-r-5 font-600">Team :</span>
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mat Helme">
+                                    <img src="/assets/adminto/images/users/avatar-1.jpg" class="img-circle thumb-sm" alt="friend" />
+                                </a>
+
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Michael Zenaty">
+                                    <img src="/assets/adminto/images/users/avatar-2.jpg" class="img-circle thumb-sm" alt="friend" />
+                                </a>
+
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="James Anderson">
+                                    <img src="/assets/adminto/images/users/avatar-3.jpg" class="img-circle thumb-sm" alt="friend" />
+                                </a>
+
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Mat Helme">
+                                    <img src="/assets/adminto/images/users/avatar-4.jpg" class="img-circle thumb-sm" alt="friend" />
+                                </a>
+
+                                <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="Username">
+                                    <img src="/assets/adminto/images/users/avatar-5.jpg" class="img-circle thumb-sm" alt="friend" />
+                                </a>
+                            </div>
+
+                            <p class="font-600 m-b-5">Progress <span class="text-{ project.class } pull-right">{ project.progress }%</span></p>
+                            <div class="progress progress-bar-{ project.class }-alt progress-sm m-b-5">
+                                <div class="progress-bar progress-bar-{ project.class } progress-animated wow animated animated"
+                                     role="progressbar" aria-valuenow="{ project.progress }" aria-valuemin="0" aria-valuemax="100"
+                                     style="width: { project.progress }%; visibility: visible; animation-name: animationProgress;">
+                                </div><!-- /.progress-bar .progress-bar-danger -->
+                            </div><!-- /.progress .no-rounded -->
+
+                        </div>
+                </div><!-- end col-->
+					
+			</div>
+		
+
+				
+    <script>
+        var _self = this;
+        this.isDataLoaded = false;
+        this.projects = [];
+        this.on("mount", function() {
+			console.log('mount project load');
+			/*
+			_self.update({
+                    isDataLoaded: true
+                });
+			*/
+			setTimeout(function() {
+				console.log('update');
+				getProjectData().then(function(e) {
+					_self.update({
+						isDataLoaded: true,
+						projects: e.projects.reverse()
+					});
+				});
+			},1000);
+			
+        });
+    </script>
+</projects-list>
