@@ -18,7 +18,7 @@
 				
 		   <div class="row">
                     <div class="col-sm-4">
-                        <button type="button" class="btn btn-purple btn-rounded w-md waves-effect waves-light m-b-20">Create Project</button>
+                        <button type="button" onclick={ click } class="btn btn-purple btn-rounded w-md waves-effect waves-light m-b-20">{ btn_project }</button>
                     </div>
                     <div class="col-sm-8">
                         <div class="project-sort pull-right">
@@ -129,5 +129,11 @@
 			},1000);
 			
         });
+		
+		this.btn_project = 'Create Project';
+		click(e) {
+			//e.preventUpdate = true // your tag will not update automatically
+			this.btn_project = 'goodbye'
+		}
     </script>
 </projects-list>

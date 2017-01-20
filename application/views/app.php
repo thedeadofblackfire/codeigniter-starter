@@ -88,6 +88,7 @@
 		
 				<div id="main-content"></div>
 				<!--<projects-list></projects-list>-->
+				
 				<main class="content js-content"></main>
 
       
@@ -206,6 +207,7 @@
 		  riot.mount(tag, 'example');
 		  */
 		  console.log('addDynamicTag contains='+document.getElementById('page-'+myTag));
+		  
 		  hideAllPages();
 		  //document.querySelectorAll('.page-content').classList.remove('is-shown');
             //self.refs.compactTopBar.querySelector('.top-bar__mobile-trigger .icon-close').classList.add('active');
@@ -218,6 +220,7 @@
 			  dyntag.setAttribute("class",'page-content is-shown');
 			  document.querySelector('.content').appendChild(dyntag);
 			  var tags = riot.mount(dyntag, myTag, myData);
+			  //console.log(tags);
 			  //riot.mount(tag, 'example');
 		  }
 		  
