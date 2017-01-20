@@ -35,28 +35,61 @@
     </head>
 
     <body>
+	
+	<style>
+	.page-content {
+		display:none;
+		/*
+	  visibility: hidden;
+  opacity: 0;
+  */
+	}
+	.page-content.is-shown {
+		/*
+		  visibility: visible;
+  opacity: 1;
+  */
+		display:block;
+	}
+	/*
+.content {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+}
+.content.is-shown {
+  visibility: visible;;
+  opacity: 1;
+  
+}
+*/
+	</style>
 
         <!-- Navigation Bar-->        
 		<navigation-bar></navigation-bar>
         <!-- End Navigation Bar-->
 
-		<main>
+		<!--<main>-->
 			
 					<!--<loader></loader>-->
 					<!--<card-list id="card-list"></card-list> -->
-					<!--
-					<loader if="{ !isDataLoaded }"></loader>		
+					<!--					
 					<top-bar></top-bar>
 					<card-list id="card-list"></card-list>
 					<right-drawer></right-drawer>
 					-->
-		</main>
+		<!--</main>-->
+			
 				
         <div class="wrapper">
             <div class="container">							
 		
 				<div id="main-content"></div>
 				<!--<projects-list></projects-list>-->
+				<main class="content js-content"></main>
+
       
                 <!-- Footer -->
                 <footer class="footer text-right">
@@ -139,6 +172,57 @@
 			return dataPromise;
 		}
 
+		function hideAllPages() {
+		  const pages = document.querySelectorAll('.page-content.is-shown')
+		  Array.prototype.forEach.call(pages, function(p) {
+			p.classList.remove('is-shown')
+		  })
+		}
+
+		function addDynamicTag(myTag, myData){
+			var myData = myData || {};
+			/*
+			const links = document.querySelectorAll('link[rel="import"]')
+
+			// Import and add each page to the DOM
+			Array.prototype.forEach.call(links, function (link) {
+			  let template = link.import.querySelector('.task-template')
+			  let clone = document.importNode(template.content, true)
+			  if (link.href.match('about.html')) {
+				document.querySelector('body').appendChild(clone)
+			  } else {
+				document.querySelector('.content').appendChild(clone)
+			  }
+			})
+
+			*/
+			/*
+		  var list = document.getElementById("list");
+		  var li = document.createElement('li');
+		  list.appendChild(li);
+
+		  var tag = document.createElement('example');
+		  li.appendChild(tag)
+		  riot.mount(tag, 'example');
+		  */
+		  console.log('addDynamicTag contains='+document.getElementById('page-'+myTag));
+		  hideAllPages();
+		  //document.querySelectorAll('.page-content').classList.remove('is-shown');
+            //self.refs.compactTopBar.querySelector('.top-bar__mobile-trigger .icon-close').classList.add('active');
+			
+		  if (document.getElementById('page-'+myTag)) {
+			  document.getElementById('page-'+myTag).classList.add('is-shown');
+		  } else {
+			  var dyntag = document.createElement(myTag);
+			  dyntag.setAttribute("id",'page-'+myTag);
+			  dyntag.setAttribute("class",'page-content is-shown');
+			  document.querySelector('.content').appendChild(dyntag);
+			  var tags = riot.mount(dyntag, myTag, myData);
+			  //riot.mount(tag, 'example');
+		  }
+		  
+		}
+
 		window.onload = function() { 
 			console.log('onload');		
 			
@@ -198,11 +282,13 @@
 		//riot.route.base('/');
 		riot.route.start();
 
+		/*
 		riot.route("/", function() {
 			//$rightDrawer.closeDrawer();
 			console.log('/');
-			var tags = riot.mount('div#main-content', 'projects-list', {});
+			//var tags = riot.mount('div#main-content', 'projects-list', {});
 		});
+		*/
 			
 		riot.route("/details/*", function(pid) {
 			if (pid) {
@@ -215,10 +301,15 @@
 		console.log('default route: '+action);
 		switch(action) {
 			case 'contact':
-				riot.mount('div#main-content', 'task-detail', {id: 1});
+				addDynamicTag('task-detail', {id: 1});
+				//riot.mount('div#main-content', 'task-detail', {id: 1});
 			break;
-			case 'app':
-				riot.mount('div#main-content', 'projects-list');
+			case '':
+			case '/':
+			case 'app':				
+				addDynamicTag('projects-list');
+				//riot.mount('div#main-content', 'projects-list');
+			break;	
 			default:
 				// should be404
 				//iot.mount('div#main-content', 'projects-list');
