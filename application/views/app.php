@@ -12,6 +12,9 @@
         <link rel="shortcut icon" href="/assets/adminto/images/favicon.ico">
 
         <title>App</title>
+		
+		<link href="assets/adminto/plugins/summernote/dist/summernote.css" rel="stylesheet" type="text/css" /><!-- Custom box css -->
+        <link href="assets/adminto/plugins/custombox/dist/custombox.min.css" rel="stylesheet" type="text/css" />
 
         <link href="/assets/adminto/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/adminto/css/core.css" rel="stylesheet" type="text/css" />
@@ -85,7 +88,7 @@
 				
         <div class="wrapper">
             <div class="container">							
-		
+						
 				<div id="main-content"></div>
 				<!--<projects-list></projects-list>-->
 				
@@ -93,6 +96,7 @@
 
       
                 <!-- Footer -->
+				<!--
                 <footer class="footer text-right">
                     <div class="container">
                         <div class="row">
@@ -115,6 +119,7 @@
                         </div>
                     </div>
                 </footer>
+				-->
                 <!-- End Footer -->
 
             </div>
@@ -141,6 +146,16 @@
         <script src="/assets/adminto/js/jquery.nicescroll.js"></script>
         <script src="/assets/adminto/js/jquery.scrollTo.min.js"></script>
 
+		<!-- Summernote -->
+        <script src="/assets/adminto/plugins/summernote/dist/summernote.min.js"></script>
+
+        <!-- Modal-Effect -->
+        <script src="/assets/adminto/plugins/custombox/dist/custombox.min.js"></script>
+        <script src="/assets/adminto/plugins/custombox/dist/legacy.min.js"></script>
+
+        <!-- Page specific only -->
+        <script src="/assets/adminto/pages/jquery.inbox.js"></script>
+		
         <!-- App js -->
         <script type="text/javascript" charset="utf-8" src="/assets/adminto/js/jquery.core.js"></script>
         <script type="text/javascript" charset="utf-8" src="/assets/adminto/js/jquery.app.js"></script>
@@ -220,6 +235,8 @@
 			  dyntag.setAttribute("class",'page-content is-shown');
 			  document.querySelector('.content').appendChild(dyntag);
 			  var tags = riot.mount(dyntag, myTag, myData);
+			  
+			  // @todo store tags in cache
 			  //console.log(tags);
 			  //riot.mount(tag, 'example');
 		  }
@@ -307,6 +324,10 @@
 				addDynamicTag('task-detail', {id: 1});
 				//riot.mount('div#main-content', 'task-detail', {id: 1});
 			break;
+			case 'inbox':
+				addDynamicTag('inbox');
+				//riot.mount('div#main-content', 'inbox');
+			break;
 			case '':
 			case '/':
 			case 'app':				
@@ -356,6 +377,17 @@
 	  }
 	});
 	*/
+	
+	 jQuery(document).ready(function(){
+
+                $('.summernote').summernote({
+                    height: 320,                 // set editor height
+                    minHeight: null,             // set minimum height of editor
+                    maxHeight: null,             // set maximum height of editor
+                    focus: false                 // set focus to editable area after initializing summernote
+                });
+
+            });
 		</script>
     </body>
 </html>
