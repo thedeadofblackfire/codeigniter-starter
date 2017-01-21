@@ -13,8 +13,8 @@
 
         <title>App</title>
 		
-		<link href="assets/adminto/plugins/summernote/dist/summernote.css" rel="stylesheet" type="text/css" /><!-- Custom box css -->
-        <link href="assets/adminto/plugins/custombox/dist/custombox.min.css" rel="stylesheet" type="text/css" />
+		<link href="/assets/adminto/plugins/summernote/dist/summernote.css" rel="stylesheet" type="text/css" /><!-- Custom box css -->
+        <link href="/assets/adminto/plugins/custombox/dist/custombox.min.css" rel="stylesheet" type="text/css" />
 
         <link href="/assets/adminto/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="/assets/adminto/css/core.css" rel="stylesheet" type="text/css" />
