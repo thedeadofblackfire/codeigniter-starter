@@ -80,7 +80,9 @@ function($) {
 
     //initializing custom modal
     Components.prototype.initCustomModalPlugin = function() {
-        $('[data-plugin="custommodal"]').on('click', function(e) {
+		//$('[data-plugin="custommodal"]').on('click', function(e) {
+		//$('body').on('click', '[data-plugin="custommodal"]', function(e) {
+        $(document).on('click', '[data-plugin="custommodal"]', function(e) {
         	Custombox.open({
                 target: $(this).attr("href"),
                 effect: $(this).attr("data-animation"),

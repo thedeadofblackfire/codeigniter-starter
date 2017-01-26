@@ -134,6 +134,8 @@
 
         </div>
 
+		
+		
 
         <!-- jQuery  -->
         <script src="/assets/adminto/js/jquery.min.js"></script>
