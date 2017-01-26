@@ -155,7 +155,8 @@
         <script src="/assets/adminto/plugins/custombox/dist/legacy.min.js"></script>
 
         <!-- Page specific only -->
-        <script src="/assets/adminto/pages/jquery.inbox.js"></script>
+		<script src="/assets/js/nanoscroller.js"></script>
+        <!--<script src="/assets/adminto/pages/jquery.inbox.js"></script>-->
 		
         <!-- App js -->
         <script type="text/javascript" charset="utf-8" src="/assets/adminto/js/jquery.core.js"></script>

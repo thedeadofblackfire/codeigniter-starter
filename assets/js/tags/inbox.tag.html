@@ -1,4 +1,4 @@
-<inbox>
+<inbox id={ widgetId }>
 
     <div class="row">
 
@@ -495,49 +495,121 @@
                 </div>
                 <!-- End row -->
        			
-    <script>
+	
+	<script>
         var _self = this;
         this.isDataLoaded = false;
+		this.widgetId = 'inbox';	
+		this.data = opts.data || {};
+		this.lastUpdate = opts.last_update || Math.round((new Date()).getTime()/1000);
+		this.debug = true;
+		this.created = new Date();
+		
         this.projects = [];
+		this.cols = {};
+		this.messageIsOpen = false;		
+
         this.on("mount", function() {
-			console.log('mount inbox load');
-			
+			if (_self.debug) console.log('RIOT MOUNT '+_self.widgetId+' created='+_self.created);		
+			//if (_self.debug) console.log(_self.data);
+		
 			_self.update({
                     isDataLoaded: true
-                });
+            });
 				
-				// When you click on a message, show it
-				document.on('click', '#main .message-list li', function(e) {
-//				$('#main .message-list li').on('click', function(e) {
-					var item = $(this),
-						target = $(e.target);
+			
+			_self.cols.showOverlay = function() {
+				$('body').addClass('show-main-overlay');
+			};
+			_self.cols.hideOverlay = function() {
+				$('body').removeClass('show-main-overlay');
+			};
 
-					if(target.is('label')) {
-						item.toggleClass('selected');
+			_self.cols.showMessage = function() {
+				$('body').addClass('show-message');
+				_self.messageIsOpen = true;
+			};
+			_self.cols.hideMessage = function() {
+				$('body').removeClass('show-message');
+				$('#main .message-list li').removeClass('active');
+				_self.messageIsOpen = false;
+			};
+
+			_self.cols.showSidebar = function() {
+				$('body').addClass('show-sidebar');
+			};
+			_self.cols.hideSidebar = function() {
+				$('body').removeClass('show-sidebar');
+			};
+
+			// Show sidebar when trigger is clicked
+			$('#'+_self.widgetId).on('click', '.trigger-toggle-sidebar', function() {	
+				_self.cols.showSidebar();
+				_self.cols.showOverlay();
+			});
+
+			$('#'+_self.widgetId).on('click', '.trigger-message-close', function() {
+				_self.cols.hideMessage();
+				_self.cols.hideOverlay();
+			});
+
+			// When you click on a message, show it
+			$('#'+_self.widgetId).on('click', '#main .message-list li', function(e) {				
+				var item = $(this),
+					target = $(e.target);
+
+				if(target.is('label')) {
+					item.toggleClass('selected');
+				} else {
+					if(_self.messageIsOpen && item.is('.active')) {
+						_self.cols.hideMessage();
+						_self.cols.hideOverlay();
 					} else {
-						if(messageIsOpen && item.is('.active')) {
-							cols.hideMessage();
-							cols.hideOverlay();
+						if(_self.messageIsOpen) {
+							_self.cols.hideMessage();
+							item.addClass('active');
+							setTimeout(function() {
+								_self.cols.showMessage();
+							}, 300);
 						} else {
-							if(messageIsOpen) {
-								cols.hideMessage();
-								item.addClass('active');
-								setTimeout(function() {
-									cols.showMessage();
-								}, 300);
-							} else {
-								item.addClass('active');
-								cols.showMessage();
-							}
-							cols.showOverlay();
+							item.addClass('active');
+							_self.cols.showMessage();
 						}
+						_self.cols.showOverlay();
 					}
-				});
+				}
+			});
 
-	
-		
-        });
-		
-		
+			// This will prevent click from triggering twice when clicking checkbox/label
+			$('#'+_self.widgetId).on('click', 'input[type=checkbox]', function(e) {				
+				e.stopImmediatePropagation();
+			});
+
+			// When you click the overlay, close everything
+			$('#'+_self.widgetId).on('click', '#main > .overlay', function() {		
+				_self.cols.hideOverlay();
+				_self.cols.hideMessage();
+				_self.cols.hideSidebar();
+			});
+
+			// Enable sexy scrollbars
+			$('.nano').nanoScroller();
+
+			// Search box responsive stuff
+			$('#'+_self.widgetId).on('focus', '.search-box input', function() {			
+				if($(window).width() <= 1360) {
+					_self.cols.hideMessage();
+				}
+			});
+
+				/*
+				$('#'+_self.widgetId).on('click', '#main .message-list li', function () {	
+					console.log('yes');
+				
+				});
+				*/
+							
+        });		
     </script>
+	
 </inbox>
