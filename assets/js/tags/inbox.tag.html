@@ -625,7 +625,7 @@
 			$('#'+_self.widgetId).on('click', '#main .message-list li', function(e) {				
 				var item = $(this),
 					target = $(e.target);
-				//console.log(item);
+				console.log(_self.messageIsOpen);
 				if(target.is('label')) {
 					item.toggleClass('selected');
 				} else {
@@ -634,7 +634,8 @@
 						_self.cols.hideOverlay();
 					} else {						
 						if(_self.messageIsOpen) {
-							_self.cols.hideMessage();
+							$('#main .message-list li').removeClass('active');
+							//_self.cols.hideMessage();
 							item.addClass('active');
 							setTimeout(function() {
 								_self.cols.showMessage();

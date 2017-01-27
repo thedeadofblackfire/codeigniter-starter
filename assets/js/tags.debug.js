@@ -85,7 +85,7 @@ riot.tag2('inbox', '<div class="row"> <div class="col-sm-12"> <div class="inbox-
 			$('#'+_self.widgetId).on('click', '#main .message-list li', function(e) {
 				var item = $(this),
 					target = $(e.target);
-
+				console.log(_self.messageIsOpen);
 				if(target.is('label')) {
 					item.toggleClass('selected');
 				} else {
@@ -94,7 +94,8 @@ riot.tag2('inbox', '<div class="row"> <div class="col-sm-12"> <div class="inbox-
 						_self.cols.hideOverlay();
 					} else {
 						if(_self.messageIsOpen) {
-							_self.cols.hideMessage();
+							$('#main .message-list li').removeClass('active');
+
 							item.addClass('active');
 							setTimeout(function() {
 								_self.cols.showMessage();
