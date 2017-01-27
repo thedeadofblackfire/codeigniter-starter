@@ -1,0 +1,40 @@
+{
+    "projects": [
+        {
+            "id": "1",
+			"class": "success",			
+			"status": "Completed",
+            "name": "Lucas Kriebel (via Twitter)",
+            "url": "http://cheekyfingers.com",
+            "subject": "Lucas Kriebel (@LucasKriebel) has sent you a direct message on Twitter!",            
+			"teaser": "@LucasKriebel - Very cool :) Nicklas, You have a new direct message.",
+			"time": "11:49 am",
+			"unread": true,
+			"dot": ""
+        },
+        {
+            "id": "2",
+			"class": "success",			
+			"status": "Completed",
+            "name": "Randy, me (5)",
+            "url": "http://cheekyfingers.com",
+            "subject": "Last pic over my village",    
+			"teaser": "Yeah i'd like that! Do you remember the video you showed me of your train ride between Colombo and Kandy? The one with the mountain view? I would love to see that one again!",
+			"time": "Mar 8",
+			"unread": false,
+			"dot": "blue-dot"
+        },
+		{
+            "id": "3",
+			"class": "success",			
+			"status": "Completed",
+            "name": "Web Support Dennis",
+            "url": "http://cheekyfingers.com",
+            "subject": "Mochila Beta: Subscription Confirmed",    
+			"teaser": "Yeah i'd like that! Do you remember the video you showed me of your train ride between Colombo and Kandy? The one with the mountain view? I would love to see that one again!",
+			"time": "Feb 24",
+			"unread": true,
+			"dot": "orange-dot"
+        }
+    ]
+}

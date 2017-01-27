@@ -94,22 +94,22 @@
 
                                         <div id="main-nano-wrapper" class="nano">
                                             <div class="nano-content">
-                                                <ul class="message-list">
-                                                    <li class="unread">
+												<loader if="{ !isDataLoaded }"></loader>		
+                                                <ul if="{ isDataLoaded }" class="message-list">
+                                                    <li each="{ mail in projects }" class="{ unread: mail.unread } { mail.dot }" data-id="{ mail.id }">
                                                         <div class="col col-1"><span class="dot"></span>
                                                             <div class="checkbox-wrapper-mail">
-                                                                <input type="checkbox" id="chk1">
-                                                                <label for="chk1" class="toggle"></label>
+                                                                <input type="checkbox" id="chk{ mail.id }">
+                                                                <label for="chk{ mail.id }" class="toggle"></label>
                                                             </div>
-                                                            <p class="title">Lucas Kriebel (via Twitter)</p><span
+                                                            <p class="title">{ mail.name }</p><span
                                                                     class="star-toggle fa fa-star-o"></span>
                                                         </div>
                                                         <div class="col col-2">
-                                                            <div class="subject">Lucas Kriebel (@LucasKriebel) has sent
-                                                                you a direct message on Twitter! &nbsp;&ndash;&nbsp;
-                                                                <span class="teaser">@LucasKriebel - Very cool :) Nicklas, You have a new direct message.</span>
+                                                            <div class="subject">{ mail.subject } &nbsp;&ndash;&nbsp;
+                                                                <span class="teaser">{ mail.teaser }</span>
                                                             </div>
-                                                            <div class="date">11:49 am</div>
+                                                            <div class="date">{ mail.time }</div>
                                                         </div>
                                                     </li>
 
@@ -413,8 +413,8 @@
                                                     class="icon circle-icon glyphicon glyphicon-remove trigger-message-close"></a>Process<span
                                                     class="grey">(6)</span></h1>
                                             <p>From <a href="#">You</a> to <a href="#">Scott Waite</a>, started on <a
-                                                    href="#">March 2, 2014</a> at 2:14 pm est.</p>
-                                        </div>
+                                                    href="#">March 2, 2014</a> at 2:14 pm est. <span id="message_test"></span></p>
+                                        </div>										
                                         <div id="message-nano-wrapper" class="nano">
                                             <div class="nano-content">
                                                 <ul class="message-container list-unstyled">
@@ -570,9 +570,20 @@
 			if (_self.debug) console.log('RIOT MOUNT '+_self.widgetId+' created='+_self.created);		
 			//if (_self.debug) console.log(_self.data);
 		
+			/*
 			_self.update({
                     isDataLoaded: true
             });
+			*/			
+			
+			_self.getData().then(function(e) {
+				if (_self.debug) console.log('update getData');
+				console.log(e);	
+				_self.update({
+					isDataLoaded: true,
+					projects: e.projects
+				});
+			});
 				
 			
 			_self.cols.showOverlay = function() {
@@ -614,14 +625,14 @@
 			$('#'+_self.widgetId).on('click', '#main .message-list li', function(e) {				
 				var item = $(this),
 					target = $(e.target);
-
+				//console.log(item);
 				if(target.is('label')) {
 					item.toggleClass('selected');
 				} else {
 					if(_self.messageIsOpen && item.is('.active')) {
 						_self.cols.hideMessage();
 						_self.cols.hideOverlay();
-					} else {
+					} else {						
 						if(_self.messageIsOpen) {
 							_self.cols.hideMessage();
 							item.addClass('active');
@@ -632,6 +643,9 @@
 							item.addClass('active');
 							_self.cols.showMessage();
 						}
+						
+						$('#message_test').html('test id='+item.attr('data-id'));
+						
 						_self.cols.showOverlay();
 					}
 				}
@@ -666,7 +680,26 @@
 				});
 				*/
 							
-        });		
+        });	
+			
+		getData() {
+            return new Promise(function(resolve, reject) {
+					var req = new XMLHttpRequest()
+
+					req.onreadystatechange = function() {
+						if (req.readyState === 4 &&
+							(req.status === 200 || !req.status && req.responseText.length)) {
+							resolve(JSON.parse(req.responseText));
+						}
+						else if(req.readyState === 4 && req.status !== 200){
+							reject("Ajax Failed");
+						}
+					}
+					req.open('GET', "/assets/data/inbox.json", true);
+					req.send('');
+				});;
+        }
+				
     </script>
 	
 </inbox>
