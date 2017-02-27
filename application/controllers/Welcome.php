@@ -40,4 +40,19 @@ class Welcome extends CI_Controller {
 
 		$this->load->view('welcome_message');
 	}
+	
+	public function email()
+	{
+		$this->load->library('email');
+
+		$this->email->from('dev@waigeo.fr', 'Waigeo');
+		$this->email->to('n.thomas@waigeo.fr');
+		//$this->email->cc('another@another-example.com');
+		//$this->email->bcc('them@their-example.com');
+		$this->email->subject('Email Test');
+		$this->email->message('Testing the email class.');
+		$result = $this->email->send();
+		var_dump($result);
+
+	}
 }
