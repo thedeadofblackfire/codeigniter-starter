@@ -364,5 +364,5 @@
             </div>
             <!-- End of Delete Multiple confirmation dialog -->
 
-            </div>
         </div>
+    </div>

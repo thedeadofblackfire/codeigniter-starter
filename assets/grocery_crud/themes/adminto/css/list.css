@@ -4,7 +4,7 @@ td.active.table-active, th.column-with-ordering.active.table-active  {
 }
 */
 .table > thead > tr > td.active, .table > tbody > tr > td.active, .table > tfoot > tr > td.active, .table > thead > tr > th.active, .table > tbody > tr > th.active, .table > tfoot > tr > th.active, .table > thead > tr.active > td, .table > tbody > tr.active > td, .table > tfoot > tr.active > td, .table > thead > tr.active > th, .table > tbody > tr.active > th, .table > tfoot > tr.active > th {
-    background-color: #FFF4B8 !important; /* FFF4B8 */
+    background-color: #FCF8E3 !important; /* FFF4B8 */
 }
 .table-hover > tbody > tr:hover, .table > tbody > tr > td.active:hover, .table > tbody > tr > td.active:hover, .table > tfoot > tr > td.active:hover,  .table > tbody > tr > th.active:hover, .table > tfoot > tr > th.active:hover, .table > tbody > tr.active > td:hover, .table > tfoot > tr.active > td:hover, .table > tbody > tr.active > th:hover, .table > tfoot > tr.active > th:hover {
     background-color: #71B6F9 !important; /*71B6F9 D7F5D8 */
