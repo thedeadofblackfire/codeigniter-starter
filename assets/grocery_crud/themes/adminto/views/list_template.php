@@ -1,31 +1,31 @@
 <?php
-    //$this->set_css($this->default_theme_path.'/bootstrap/css/bootstrap/bootstrap.min.css');
-    $this->set_css($this->default_theme_path.'/bootstrap/css/font-awesome/css/font-awesome.min.css');    
-    $this->set_css($this->default_theme_path.'/bootstrap/css/common.css');    
-    $this->set_css($this->default_theme_path.'/bootstrap/css/list.css');
-    $this->set_css($this->default_theme_path.'/bootstrap/css/general.css');
-    $this->set_css($this->default_theme_path.'/bootstrap/css/plugins/animate.min.css');
+    //$this->set_css($this->default_theme_path.'/adminto/css/bootstrap/bootstrap.min.css');
+    //$this->set_css($this->default_theme_path.'/adminto/css/font-awesome/css/font-awesome.min.css');    
+    $this->set_css($this->default_theme_path.'/adminto/css/common.css');    
+    $this->set_css($this->default_theme_path.'/adminto/css/list.css');
+    $this->set_css($this->default_theme_path.'/adminto/css/general.css');
+    $this->set_css($this->default_theme_path.'/adminto/css/plugins/animate.min.css');
 
     if ($this->config->environment == 'production') {
         $this->set_js_lib($this->default_javascript_path.'/'.grocery_CRUD::JQUERY);
-        $this->set_js_lib($this->default_theme_path.'/bootstrap/build/js/global-libs.min.js');
+        $this->set_js_lib($this->default_theme_path.'/adminto/build/js/global-libs.min.js');
     } else {
         $this->set_js_lib($this->default_javascript_path.'/'.grocery_CRUD::JQUERY);
-        $this->set_js_lib($this->default_theme_path.'/bootstrap/js/jquery-plugins/jquery.form.js');
-        $this->set_js_lib($this->default_theme_path.'/bootstrap/js/common/cache-library.js');
-        $this->set_js_lib($this->default_theme_path.'/bootstrap/js/common/common.js');
+        $this->set_js_lib($this->default_theme_path.'/adminto/js/jquery-plugins/jquery.form.js');
+        $this->set_js_lib($this->default_theme_path.'/adminto/js/common/cache-library.js');
+        $this->set_js_lib($this->default_theme_path.'/adminto/js/common/common.js');
     }
 
     //section libs
-    $this->set_js_lib($this->default_theme_path.'/bootstrap/js/jquery-plugins/gc-dropdown.min.js');
-    $this->set_js_lib($this->default_theme_path.'/bootstrap/js/jquery-plugins/gc-modal.min.js');
-    $this->set_js_lib($this->default_theme_path.'/bootstrap/js/jquery-plugins/bootstrap-growl.min.js');
-    $this->set_js_lib($this->default_theme_path.'/bootstrap/js/jquery-plugins/jquery.print-this.js');
+    $this->set_js_lib($this->default_theme_path.'/adminto/js/jquery-plugins/gc-dropdown.min.js');
+    $this->set_js_lib($this->default_theme_path.'/adminto/js/jquery-plugins/gc-modal.min.js');
+    $this->set_js_lib($this->default_theme_path.'/adminto/js/jquery-plugins/bootstrap-growl.min.js');
+    $this->set_js_lib($this->default_theme_path.'/adminto/js/jquery-plugins/jquery.print-this.js');
 
 
     //page js
-    $this->set_js_lib($this->default_theme_path.'/bootstrap/js/datagrid/gcrud.datagrid.js');
-    $this->set_js_lib($this->default_theme_path.'/bootstrap/js/datagrid/list.js');
+    $this->set_js_lib($this->default_theme_path.'/adminto/js/datagrid/gcrud.datagrid.js');
+    $this->set_js_lib($this->default_theme_path.'/adminto/js/datagrid/list.js');
 
 
     $colspans = (count($columns) + 2);
@@ -89,7 +89,7 @@
     var THEME_VERSION = '1.3.7';
 </script>
     <br/>
-    <div class="container gc-container">
+    <div class="container gc-container" style="width:100%;">
         <div class="success-message hidden"><?php
         if($success_message !== null){?>
            <?php echo $success_message; ?> &nbsp; &nbsp;
@@ -97,7 +97,39 @@
         ?></div>
 
  		<div class="row">
-        	<div class="table-section">
+        	<div class="card-box table-section">
+				<div class="btn-group pull-right">
+				<!--
+                                <button type="button" class="btn btn-default waves-effect">Left</button>
+                                <button type="button" class="btn btn-default waves-effect">Middle</button>
+                                <button type="button" class="btn btn-default waves-effect">Right</button>
+								-->
+					<div class="floatR r5 minimize-maximize-container minimize-maximize">
+                        <i class="fa fa-caret-up"></i>
+                    </div>
+                    <div class="floatR r5 gc-full-width">
+                        <i class="fa fa-expand"></i>                        
+                    </div>                      
+                    <div class="clear"></div>
+                </div>
+				<!--
+				<div class="dropdown pull-right">
+                                <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="zmdi zmdi-more-vert"></i>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#">Separated link</a></li>
+                                </ul>
+                </div>
+				-->
+
+                <h4 class="header-title m-t-0 m-b-30"><?php echo $subject_plural; ?></h4>
+						
+				<!--
                 <div class="table-label">
                     <div class="floatL l5">
                         <?php echo $subject_plural; ?>
@@ -110,12 +142,13 @@
                     </div>                      
                     <div class="clear"></div>
                 </div>
-                <div class="table-container">
+				-->
+                <div class="xrow table-containerx">
                     <?php echo form_open("", 'method="post" autocomplete="off" id="gcrud-search-form"'); ?>
-                        <div class="header-tools">
+                        <div class="xxxheader-tools b15">
                             <?php if(!$unset_add){?>
                                 <div class="floatL t5">
-                                    <a class="btn btn-default" href="<?php echo $add_url?>"><i class="fa fa-plus"></i> &nbsp; <?php echo $this->l('list_add'); ?> <?php echo $subject?></a>
+                                    <a class="btn btn-success" href="<?php echo $add_url?>"><i class="fa fa-plus"></i> &nbsp; <?php echo $this->l('list_add'); ?> <?php echo $subject?></a>
                                 </div>
                             <?php } ?>
                             <div class="floatR">
@@ -146,7 +179,7 @@
                             <div class="clear"></div>
                         </div>
                         <div class="scroll-if-required">
-        			        <table class="table table-bordered grocery-crud-table table-hover">
+        			        <table class="table table-bordered table-striped grocery-crud-table table-hover">
         					<thead>
         						<tr>
         							<th colspan="2" <?php if ($buttons_counter === 0) {?>class="hidden"<?php }?>>
@@ -197,7 +230,7 @@
                             </table>
                         </div>
                             <!-- Table Footer -->
-        					<div class="footer-tools">
+        					<div class="xxxfooter-tools">
 
                                             <!-- "Show 10/25/50/100 entries" (dropdown per-page) -->
                                             <div class="floatL t20 l5">

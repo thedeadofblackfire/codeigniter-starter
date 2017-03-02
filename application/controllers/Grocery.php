@@ -14,7 +14,8 @@ class Grocery extends CI_Controller {
 
 	public function _example_output($output = null)
 	{
-		$this->load->view('grocery.php',(array)$output);
+		$this->load->view('adminto_grocery.php',(array)$output);
+		//$this->load->view('grocery.php',(array)$output);
 	}
 
 	public function offices()
