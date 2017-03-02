@@ -88,8 +88,8 @@
     var message_alert_delete = "<?php echo $this->l('alert_delete'); ?>";
     var THEME_VERSION = '1.3.7';
 </script>
-    <br/>
-    <div class="container gc-container" style="width:100%;">
+   
+    <div class="container gc-container marg0 pad10" style="width:100%;">
         <div class="success-message hidden"><?php
         if($success_message !== null){?>
            <?php echo $success_message; ?> &nbsp; &nbsp;
@@ -143,7 +143,7 @@
                     <div class="clear"></div>
                 </div>
 				-->
-                <div class="xrow table-containerx">
+                <div class="xrow table-container">
                     <?php echo form_open("", 'method="post" autocomplete="off" id="gcrud-search-form"'); ?>
                         <div class="xxxheader-tools b15">
                             <?php if(!$unset_add){?>
