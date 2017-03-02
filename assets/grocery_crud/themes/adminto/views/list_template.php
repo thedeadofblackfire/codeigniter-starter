@@ -87,9 +87,8 @@
 
     var message_alert_delete = "<?php echo $this->l('alert_delete'); ?>";
     var THEME_VERSION = '1.3.7';
-</script>
-   
-    <div class="container gc-container marg0 pad10" style="width:100%;">
+</script>   
+    <div class="container gc-container">
         <div class="success-message hidden"><?php
         if($success_message !== null){?>
            <?php echo $success_message; ?> &nbsp; &nbsp;

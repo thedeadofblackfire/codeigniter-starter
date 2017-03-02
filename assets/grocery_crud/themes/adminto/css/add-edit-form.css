@@ -1,3 +1,8 @@
+.gc-container {
+  width:100%;
+  padding:0px !important;
+  margin:0px !important;
+}
 .table-label {
   background: #DDD;
   width: 100%;
@@ -13,7 +18,7 @@
 
 .form-container {
   padding: 10px;
-  border: 1px solid #DDD;
+  /*border: 1px solid #DDD;*/
 }
 
 .read-row {
