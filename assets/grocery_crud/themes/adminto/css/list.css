@@ -190,6 +190,11 @@ box-shadow: inset 0px 4px 7px -3px rgba(0,0,0,0.6);
 			*/
 	
 }
+.table > tbody > tr > td.active {
+	-webkit-box-shadow: inset 7px 0px 7px -10px rgba(0,0,0,0.6), inset -7px 0px 7px -10px rgba(0,0,0,0.6);
+    -moz-box-shadow: inset 7px 0px 7px -10px rgba(0,0,0,0.6), inset -7px 0px 7px -10px rgba(0,0,0,0.6);
+	box-shadow: inset 7px 0px 7px -10px rgba(0,0,0,0.6), inset -7px 0px 7px -10px rgba(0,0,0,0.6);
+}
 .gc-container span.page-number-input-container {
   padding: 4px 10px !important;
 }
