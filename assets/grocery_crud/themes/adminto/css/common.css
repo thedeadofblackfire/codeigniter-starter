@@ -27,6 +27,13 @@
   margin-left: 0px;
   margin-right: 0px;
 }
+/* custom: bg transition effect */
+.container-full {
+	background-color:#EBEFF2;	
+	 -webkit-transition: background-color 1s linear;
+    -ms-transition: background-color 1s linear;
+    transition: background-color 1s linear;	
+}
 
 @media (max-width: 960px) {
   .container-full div.row {

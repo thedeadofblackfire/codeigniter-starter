@@ -27,6 +27,10 @@
     $this->set_js_lib($this->default_theme_path.'/adminto/js/datagrid/gcrud.datagrid.js');
     $this->set_js_lib($this->default_theme_path.'/adminto/js/datagrid/list.js');
 
+	// -----------------
+	// custom stuff here
+	$grocery_custom = $_SESSION['grocery_custom'];
+	// -----------------
 
     $colspans = (count($columns) + 2);
 
@@ -95,17 +99,25 @@
         <?php }
         ?></div>
 
- 		<div class="row">
+ 		<div class="row">		
         	<div class="card-box table-section">
+				<div class="loading-spinner">
+				  <div class="bounce1"></div>
+				  <div class="bounce2"></div>
+				  <div class="bounce3"></div>
+				</div>
+				
 				<div class="btn-group pull-right">
 				<!--
                                 <button type="button" class="btn btn-default waves-effect">Left</button>
                                 <button type="button" class="btn btn-default waves-effect">Middle</button>
                                 <button type="button" class="btn btn-default waves-effect">Right</button>
 								-->
+									
 					<div class="floatR r5 minimize-maximize-container minimize-maximize">
                         <i class="fa fa-caret-up"></i>
                     </div>
+					
                     <div class="floatR r5 gc-full-width">
                         <i class="fa fa-expand"></i>                        
                     </div>                      
@@ -148,9 +160,13 @@
                             <?php if(!$unset_add){?>
                                 <div class="floatL t5">
                                     <a class="btn btn-success" href="<?php echo $add_url?>"><i class="fa fa-plus"></i> &nbsp; <?php echo $this->l('list_add'); ?> <?php echo $subject?></a>
+									<?php if (!empty($grocery_custom['buttons_main'])) echo $grocery_custom['buttons_main']; ?>
                                 </div>
-                            <?php } ?>
+                            <?php } ?>							 
                             <div class="floatR">
+								<?php if(!empty($grocery_custom['buttons_toolbar'])) { ?>
+								    <?php echo $grocery_custom['buttons_toolbar']; ?>
+								<?php } ?>
                                 <?php if(!$unset_export) { ?>
                                     <a class="btn btn-default t5 gc-export" data-url="<?php echo $export_url; ?>">
                                         <i class="fa fa-cloud-download floatL t3"></i>

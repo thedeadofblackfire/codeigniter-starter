@@ -1,5 +1,4 @@
 /*global jQuery, console, setTimeout, ajax_list_url, unique_hash, csrf_cookie_name */
-/* CUSTOM: changes for added-loading-class, removed-loading-class */
 (function ($) {
     "use strict";
 
@@ -292,16 +291,16 @@
 
             form_on_demand.ajaxSubmit({
                 beforeSend: function () {
-                    datagrid_object.gcrud_container.addClass(Datagrid.CLASS_LOADING).trigger("added-loading-class");
+                    datagrid_object.gcrud_container.addClass(Datagrid.CLASS_LOADING);
                 },
                 complete: function () {
-                    datagrid_object.gcrud_container.removeClass(Datagrid.CLASS_LOADING).trigger("removed-loading-class");
+                    datagrid_object.gcrud_container.removeClass(Datagrid.CLASS_LOADING);
                 },
                 error: function () {
-                    datagrid_object.gcrud_container.removeClass(Datagrid.CLASS_LOADING).trigger("removed-loading-class");
+                    datagrid_object.gcrud_container.removeClass(Datagrid.CLASS_LOADING);
                 },
                 success: function (html_data) {
-                    datagrid_object.gcrud_container.removeClass(Datagrid.CLASS_LOADING).trigger("removed-loading-class");
+                    datagrid_object.gcrud_container.removeClass(Datagrid.CLASS_LOADING);
                     $("<div/>").html(html_data).printThis();
                 }
             });
@@ -487,7 +486,7 @@
             var gcrud_container = $(this).closest('.gc-container'),
                 column_title = $.trim($(this).text());
 
-            gcrud_container.addClass(Datagrid.CLASS_LOADING).trigger("added-loading-class");
+            gcrud_container.addClass(Datagrid.CLASS_LOADING);
 
             $(this).closest('.grocery-crud-table').find('th.active, td.active').removeClass('active table-active');
 
@@ -515,7 +514,7 @@
             //In any case the page number will be 1
             gcrud_container.find('input[name="page_number"]').val('1');
 
-            gcrud_container.removeClass(Datagrid.CLASS_LOADING).trigger("removed-loading-class");
+            gcrud_container.removeClass(Datagrid.CLASS_LOADING);
 
             datagrid_object.SearchAndOrderingTrigger();
 
@@ -654,7 +653,7 @@
 
         $.ajax({
                 beforeSend: function () {
-                    this.gcrud_container.addClass(Datagrid.CLASS_LOADING).trigger("added-loading-class");
+                    this.gcrud_container.addClass(Datagrid.CLASS_LOADING);
                 }.bind(this),
                 data: dataToSend,
                 dataType: 'json',
@@ -665,7 +664,7 @@
                 method: 'post'
             })
             .always(function() {
-                this.gcrud_container.removeClass(Datagrid.CLASS_LOADING).trigger("removed-loading-class");
+                this.gcrud_container.removeClass(Datagrid.CLASS_LOADING);
             }.bind(this));
     };
 
@@ -796,10 +795,10 @@
 
                 $.ajax({
                     beforeSend: function () {
-                        datagrid_object.gcrud_container.addClass(Datagrid.CLASS_LOADING).trigger("added-loading-class");
+                        datagrid_object.gcrud_container.addClass(Datagrid.CLASS_LOADING);
                     },
                     error: function () {
-                        datagrid_object.gcrud_container.removeClass(Datagrid.CLASS_LOADING).trigger("removed-loading-class");
+                        datagrid_object.gcrud_container.removeClass(Datagrid.CLASS_LOADING);
                     },
                     url: delete_row_button.data('target'),
                     dataType: 'json',

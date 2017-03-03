@@ -1,6 +1,7 @@
 .gc-container {
   width:100%;
-  padding:0px !important;
+  /*padding:0px !important;*/
+  padding:0px 10px;
   margin:0px !important;
 }
 .table-label {

@@ -236,7 +236,7 @@ foreach($css_files as $file): ?>
         <div class="wrapper">
             <div class="container">
 
-			
+
 				<div>
 		<a href='<?php echo site_url('grocery/customers_management')?>'>Customers</a> |
 		<a href='<?php echo site_url('grocery/orders_management')?>'>Orders</a> |
@@ -265,7 +265,7 @@ foreach($css_files as $file): ?>
                         <h4 class="page-title">Basic Tables</h4>
                     </div>
                 </div>
-
+						
 				<!--<div style='height:20px;'></div>  -->
 				<div>
 					<?php echo $output;  ?>

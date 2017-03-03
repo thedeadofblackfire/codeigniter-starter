@@ -65,6 +65,15 @@ jQuery(function ($) {
             $(this).find('i.fa:first').removeClass('fa-lg');
         }
     );
+	
+	// custom fullscreen back
+	$(document).on('keyup',function(evt) {
+		if (evt.keyCode == 27 && $('.gc-container').hasClass('container-full')) {
+		   //console.log('Esc key pressed.');
+		   $('.gc-full-width').trigger('click');
+		}
+	});
+	
 });
 
 function getCookie(cname) {

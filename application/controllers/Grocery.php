@@ -9,7 +9,8 @@ class Grocery extends CI_Controller {
 		$this->load->database();
 		$this->load->helper('url');
 
-		$this->load->library('grocery_CRUD');
+		//$this->load->library('crud');
+		//$this->load->library('grocery_CRUD');
 		
 	}
 
@@ -73,15 +74,18 @@ class Grocery extends CI_Controller {
 
 	public function customers_management()
 	{
-			$crud = new grocery_CRUD();
+			$crud = new Grocery_CRUD_custom();
 
 			$crud->set_table('customers');
 			$crud->columns('customerName','contactLastName','phone','city','country','salesRepEmployeeNumber','creditLimit');
 			$crud->display_as('salesRepEmployeeNumber','from Employeer')
 				 ->display_as('customerName','Name')
 				 ->display_as('contactLastName','Last Name');
-			$crud->set_subject('Customer');
+			$crud->set_subject('Customer', 'Customers');
 			$crud->set_relation('salesRepEmployeeNumber','employees','lastName');
+			
+			$crud->set_button_main('<button class="btn btn-primary">test</button>');
+			$crud->set_button_toolbar('<a class="btn btn-warning t5" href="/"><i class="fa fa-cloud-download floatL t3"></i> <span class="hidden-xs floatL l5">test</span><div class="clear"></div></a>');
 
 			$output = $crud->render();
 

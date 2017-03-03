@@ -29,6 +29,9 @@ td.active.table-active, th.column-with-ordering.active.table-active  {
   overflow: auto;
   padding-bottom: 60px;
 }
+.gc-container .table-section {
+	position:relative;
+}
 .gc-container .table-container {
   /*
   border-left: 1px solid #DDD;
