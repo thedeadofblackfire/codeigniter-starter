@@ -1,7 +1,7 @@
 .gc-container {
   width:100%;
-  /*padding:0px !important;*/
-  padding:0px 10px;
+  padding:0px !important;
+  padding-top: 10px !important;
   margin:0px !important;
 }
 .table-label {

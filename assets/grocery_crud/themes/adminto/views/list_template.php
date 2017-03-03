@@ -101,7 +101,7 @@
 
  		<div class="row">		
         	<div class="card-box table-section">
-				<div class="loading-spinner">
+				<div class="loading-spinner" style="display:none;">
 				  <div class="bounce1"></div>
 				  <div class="bounce2"></div>
 				  <div class="bounce3"></div>
