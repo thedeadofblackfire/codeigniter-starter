@@ -65,6 +65,7 @@ td.active.table-active, th.column-with-ordering.active.table-active  {
 }
 .gc-container .column-with-ordering {
   cursor: pointer;
+  position: relative;
 }
 .gc-container .column-with-ordering:hover {
   background: #EDEDED !important;
@@ -76,6 +77,40 @@ td.active.table-active, th.column-with-ordering.active.table-active  {
 .gc-container .column-with-ordering > div::-moz-selection {
   background: transparent !important;
 }
+
+.gc-container table.grocery-crud-table thead .column-with-ordering:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: block;
+    font-family: 'Glyphicons Halflings';
+	/*font-family: "FontAwesome";*/
+    opacity: 0.5;
+}
+
+.gc-container table.grocery-crud-table thead .column-with-ordering:after {
+    opacity: 0.2;
+    /*content: "\f160";*/
+	/*content: "\f0dc";*/
+	/*color:#000;*/
+	content: "\e150";
+}
+.gc-container table.grocery-crud-table thead .column-with-ordering.ordering-asc:after {
+    content: "\e155";
+	opacity: 0.7;
+}
+.gc-container table.grocery-crud-table thead .column-with-ordering.ordering-desc:after {
+    content: "\e156";
+	opacity: 0.7;
+}
+.gc-container table.grocery-crud-table thead .column-with-ordering.active i {
+	display:none;
+}
+/*
+.gc-container table.grocery-crud-table thead .column-with-ordering.active:after {
+	content:'';
+}
+*/
 .gc-container .only-mobiles {
   display: none;
 }
@@ -120,6 +155,40 @@ td.active.table-active, th.column-with-ordering.active.table-active  {
 }
 .gc-container table.grocery-crud-table {
   margin-bottom: 0px;
+}
+.gc-container table.grocery-crud-table thead th {
+	background-color:#f5f5f5;
+	/*color:#000;*/
+}
+.gc-container table.grocery-crud-table thead tr.filter-row {
+	/*
+	box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
+	*/
+	/*
+	-webkit-box-shadow: inset 0px -2px 7px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: inset 0px -2px 7px 0px rgba(0,0,0,0.75);
+*/
+box-shadow: inset 0px 4px 7px -3px rgba(0,0,0,0.6);
+	/*
+	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7),
+            -1px 2px 20px rgba(255, 255, 255, 0.6) inset; 
+			*/
+	
+}
+.table > thead > tr > td.active {
+	/*
+	box-shadow: -1px 2px 10px 3px rgba(0, 0, 0, 0.3) inset;
+	*/
+	/*
+	-webkit-box-shadow: inset 0px -2px 7px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: inset 0px -2px 7px 0px rgba(0,0,0,0.75);
+*/
+box-shadow: inset 0px 4px 7px -3px rgba(0,0,0,0.6);
+	/*
+	box-shadow: -1px 2px 5px 1px rgba(0, 0, 0, 0.7),
+            -1px 2px 20px rgba(255, 255, 255, 0.6) inset; 
+			*/
+	
 }
 .gc-container span.page-number-input-container {
   padding: 4px 10px !important;

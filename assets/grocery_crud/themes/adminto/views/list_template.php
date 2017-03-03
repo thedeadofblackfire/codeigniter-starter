@@ -113,14 +113,22 @@
                                 <button type="button" class="btn btn-default waves-effect">Middle</button>
                                 <button type="button" class="btn btn-default waves-effect">Right</button>
 								-->
-									
+					<?php if(!$grocery_custom['minimize']){?>				
 					<div class="floatR r5 minimize-maximize-container minimize-maximize">
                         <i class="fa fa-caret-up"></i>
                     </div>
+					<?php } ?>
 					
+					<?php if(!$grocery_custom['fullscreen']){?>		
                     <div class="floatR r5 gc-full-width">
                         <i class="fa fa-expand"></i>                        
                     </div>                      
+					<?php } ?>
+							
+					<?php if(!empty($grocery_custom['shortcut'])){?>			
+						<?php echo $grocery_custom['shortcut']; ?>
+					<?php } ?>
+							
                     <div class="clear"></div>
                 </div>
 				<!--
@@ -160,9 +168,13 @@
                             <?php if(!$unset_add){?>
                                 <div class="floatL t5">
                                     <a class="btn btn-success" href="<?php echo $add_url?>"><i class="fa fa-plus"></i> &nbsp; <?php echo $this->l('list_add'); ?> <?php echo $subject?></a>
-									<?php if (!empty($grocery_custom['buttons_main'])) echo $grocery_custom['buttons_main']; ?>
                                 </div>
-                            <?php } ?>							 
+                            <?php } ?>	
+							<?php if (!empty($grocery_custom['buttons_main'])){?>
+                                <div class="floatL t5 <?php if(!$unset_add){?>l5<?php } ?>">
+                                    <?php echo $grocery_custom['buttons_main']; ?>
+                                </div>
+                            <?php } ?>								
                             <div class="floatR">
 								<?php if(!empty($grocery_custom['buttons_toolbar'])) { ?>
 								    <?php echo $grocery_custom['buttons_toolbar']; ?>
@@ -205,6 +217,7 @@
                                     <?php }?>
         						</tr>
         						
+								<?php if (!$grocery_custom['search']){?>
         						<tr class="filter-row gc-search-row">
         							<td class="no-border-right <?php if ($buttons_counter === 0) {?>hidden<?php }?>">
                                         <?php if (!$unset_delete) { ?>
@@ -237,6 +250,7 @@
                                         </td>
                                     <?php }?>
         						</tr>
+								<?php } ?>
 
         					</thead>
         					<tbody>

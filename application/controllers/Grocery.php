@@ -86,7 +86,19 @@ class Grocery extends CI_Controller {
 			
 			$crud->set_button_main('<button class="btn btn-primary">test</button>');
 			$crud->set_button_toolbar('<a class="btn btn-warning t5" href="/"><i class="fa fa-cloud-download floatL t3"></i> <span class="hidden-xs floatL l5">test</span><div class="clear"></div></a>');
-
+			//$crud->unset_search();
+			//$crud->unset_minimize();
+			//$crud->unset_fullscreen();
+			//$crud->set_shortcut('<div class="dropdown pull-right"><a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false"><i class="zmdi zmdi-more-vert"></i></a><ul class="dropdown-menu" role="menu"><li><a href="#">Action</a></li><li class="divider"></li><li><a href="#">Separated link</a></li></ul></div>');
+			//$crud->set_shortcut('<button type="button" class="btn btn-default waves-effect">Left</button><button type="button" class="btn btn-default waves-effect">Middle</button><button type="button" class="btn btn-default waves-effect">Right</button>');
+			
+			/*
+			$crud->unset_add();
+			$crud->unset_delete();
+			$crud->unset_edit();
+			$crud->unset_read();
+			*/
+			
 			$output = $crud->render();
 
 			$this->_example_output($output);
