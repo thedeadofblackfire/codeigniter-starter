@@ -9,6 +9,8 @@ class Grocery extends CI_Controller {
 		$this->load->database();
 		$this->load->helper('url');
 
+		$this->output->enable_profiler(TRUE);
+		
 		//$this->load->library('crud');
 		//$this->load->library('grocery_CRUD');
 		
