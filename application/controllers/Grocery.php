@@ -77,12 +77,15 @@ class Grocery extends CI_Controller {
 	public function customers_management()
 	{
 			$crud = new Grocery_CRUD_custom();
-
+			
+			//$crud->set_model('custom_query_model');
 			$crud->set_table('customers');
-			$crud->columns('customerName','contactLastName','phone','city','country','salesRepEmployeeNumber','creditLimit');
+			//$crud->columns('customerName','contactLastName','phone','city','country','salesRepEmployeeNumber','creditLimit');
+			
 			$crud->display_as('salesRepEmployeeNumber','from Employeer')
 				 ->display_as('customerName','Name')
 				 ->display_as('contactLastName','Last Name');
+				 
 			$crud->set_subject('Customer', 'Customers');
 			$crud->set_relation('salesRepEmployeeNumber','employees','lastName');
 			
@@ -108,6 +111,7 @@ class Grocery extends CI_Controller {
 
 	public function orders_management()
 	{
+		
 			$crud = new grocery_CRUD();
 
 			$crud->set_relation('customerNumber','customers','{contactLastName} {contactFirstName}');
@@ -120,6 +124,7 @@ class Grocery extends CI_Controller {
 			$output = $crud->render();
 
 			$this->_example_output($output);
+			
 	}
 
 	public function products_management()

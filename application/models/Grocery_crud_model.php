@@ -16,6 +16,104 @@
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
  */
 
+class Grocery_crud_model extends Grocery_crud_model_original {
+ 
+    protected $_debug = false;
+	protected $optimized_sql = array();
+	
+	function __construct() {
+		parent::__construct();
+		
+		$this->load->library('console');
+	}
+ 
+	function get_field_types_basic_table()
+    {		
+		if (!isset($this->optimized_sql['show_columns_'.$this->table_name])) {
+			if ($this->_debug) Console::log('show column '.$this->table_name);		
+			$this->optimized_sql['show_columns_'.$this->table_name] = $this->db->query("SHOW COLUMNS FROM `{$this->table_name}`")->result();
+		}
+		
+		if ($this->_debug) Console::log('get_field_types_basic_table '.count($this->optimized_sql['show_columns_'.$this->table_name]));	
+	
+    	$db_field_types = array();
+    	foreach($this->optimized_sql['show_columns_'.$this->table_name] as $db_field_type)
+    	{
+    		$type = explode("(",$db_field_type->Type);
+    		$db_type = $type[0];
+
+    		if(isset($type[1]))
+    		{
+    			if(substr($type[1],-1) == ')')
+    			{
+    				$length = substr($type[1],0,-1);
+    			}
+    			else
+    			{
+    				list($length) = explode(" ",$type[1]);
+    				$length = substr($length,0,-1);
+    			}
+    		}
+    		else
+    		{
+    			$length = '';
+    		}
+    		$db_field_types[$db_field_type->Field]['db_max_length'] = $length;
+    		$db_field_types[$db_field_type->Field]['db_type'] = $db_type;
+    		$db_field_types[$db_field_type->Field]['db_null'] = $db_field_type->Null == 'YES' ? true : false;
+    		$db_field_types[$db_field_type->Field]['db_extra'] = $db_field_type->Extra;
+    	}
+
+		$results = $this->optimize_field_data($this->table_name);  
+			
+    	foreach($results as $num => $row)
+    	{
+    		$row = (array)$row;
+    		$results[$num] = (object)( array_merge($row, $db_field_types[$row['name']])  );
+    	}
+
+    	return $results;
+    }
+	
+	function get_field_types($table_name)
+    {
+		return $this->optimize_field_data($table_name);  
+    }
+	
+	function get_total_results()
+    {
+        // A fast way to calculate the total results
+        $key = $this->get_primary_key();
+
+    	//set_relation_n_n special queries. We prefer sub queries from a simple join for the relation_n_n as it is faster and more stable on big tables.
+    	if(!empty($this->relation_n_n))
+    	{
+    		$select = "{$this->table_name}." . $key;
+    		$select = $this->relation_n_n_queries($select);
+
+    		$this->db->select($select,false);
+    	} else {
+            $this->db->select($this->table_name . '.' . $key);
+        }
+        
+		if (!isset($this->optimized_sql['total_results_'.$this->table_name])) {
+			if ($this->_debug) Console::log('total_results '.$this->table_name);		
+			$this->optimized_sql['total_results_'.$this->table_name] = $this->db->get($this->table_name)->num_rows();
+		}
+		
+        return $this->optimized_sql['total_results_'.$this->table_name];
+    }
+	
+	function optimize_field_data($table_name) {
+		if (!isset($this->optimized_sql['field_data_'.$table_name])) {
+			if ($this->_debug) Console::log('show field_data '.$table_name);
+			$this->optimized_sql['field_data_'.$table_name] = $this->db->field_data($table_name);		
+		}
+		return $this->optimized_sql['field_data_'.$table_name];
+	}
+	
+}
+
 // ------------------------------------------------------------------------
 
 /**
@@ -27,17 +125,19 @@
  * @version    	1.5.6
  * @link		http://www.grocerycrud.com/documentation
  */
-class Grocery_crud_model  extends CI_Model  {
+class Grocery_crud_model_original  extends CI_Model  {
 
 	protected $primary_key = null;
 	protected $table_name = null;
 	protected $relation = array();
 	protected $relation_n_n = array();
 	protected $primary_keys = array();
-
+	
 	function __construct()
     {
         parent::__construct();
+		
+		$this->load->library('console');
     }
 
     function db_table_exists($table_name = null)
@@ -54,7 +154,7 @@ class Grocery_crud_model  extends CI_Model  {
 
     	//set_relation special queries
     	if(!empty($this->relation))
-    	{
+    	{			 
     		foreach($this->relation as $relation)
     		{
     			list($field_name , $related_table , $related_field_title) = $relation;
@@ -190,7 +290,7 @@ class Grocery_crud_model  extends CI_Model  {
     	} else {
             $this->db->select($this->table_name . '.' . $key);
         }
-        
+        Console::log($key);
         return $this->db->get($this->table_name)->num_rows();
     }
 
@@ -431,7 +531,7 @@ class Grocery_crud_model  extends CI_Model  {
     }
 
     function get_field_types_basic_table()
-    {
+    {					
     	$db_field_types = array();
     	foreach($this->db->query("SHOW COLUMNS FROM `{$this->table_name}`")->result() as $db_field_type)
     	{
@@ -461,6 +561,7 @@ class Grocery_crud_model  extends CI_Model  {
     	}
 
     	$results = $this->db->field_data($this->table_name);
+		
     	foreach($results as $num => $row)
     	{
     		$row = (array)$row;
