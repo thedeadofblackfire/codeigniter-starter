@@ -18,7 +18,7 @@
 
 class Grocery_crud_model extends Grocery_crud_model_original {
  
-    protected $_debug = false;
+    protected $_debug = true;
 	protected $optimized_sql = array();
 	
 	function __construct() {
@@ -33,6 +33,8 @@ class Grocery_crud_model extends Grocery_crud_model_original {
 			if ($this->_debug) Console::log('show column '.$this->table_name);		
 			$this->optimized_sql['show_columns_'.$this->table_name] = $this->db->query("SHOW COLUMNS FROM `{$this->table_name}`")->result();
 		}
+		
+		Console::log($this->optimized_sql['show_columns_'.$this->table_name]);		
 		
 		if ($this->_debug) Console::log('get_field_types_basic_table '.count($this->optimized_sql['show_columns_'.$this->table_name]));	
 	
