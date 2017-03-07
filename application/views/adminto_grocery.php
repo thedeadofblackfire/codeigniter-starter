@@ -80,7 +80,7 @@ foreach($css_files as $file): ?>
 
                             <li class="dropdown user-box">
                                 <a href="" class="dropdown-toggle waves-effect waves-light profile " data-toggle="dropdown" aria-expanded="true">
-                                    <img src="assets/images/users/avatar-1.jpg" alt="user-img" class="img-circle user-img">
+                                    <img src="/assets/adminto/images/users/avatar-1.jpg" alt="user-img" class="img-circle user-img">
                                     <div class="user-status away"><i class="zmdi zmdi-dot-circle"></i></div>
                                 </a>
 
@@ -316,7 +316,7 @@ foreach($css_files as $file): ?>
                         <li class="list-group-item">
                             <a href="#" class="user-list-item">
                                 <div class="avatar">
-                                    <img src="assets/images/users/avatar-2.jpg" alt="">
+                                    <img src="/assets/adminto/images/users/avatar-2.jpg" alt="">
                                 </div>
                                 <div class="user-desc">
                                     <span class="name">Michael Zenaty</span>
@@ -352,7 +352,7 @@ foreach($css_files as $file): ?>
                         <li class="list-group-item active">
                             <a href="#" class="user-list-item">
                                 <div class="avatar">
-                                    <img src="assets/images/users/avatar-3.jpg" alt="">
+                                    <img src="/assets/adminto/images/users/avatar-3.jpg" alt="">
                                 </div>
                                 <div class="user-desc">
                                     <span class="name">James Anderson</span>
@@ -384,28 +384,24 @@ foreach($css_files as $file): ?>
 
 
         <!-- jQuery  -->
-        <script src="/assets/js/jquery.min.js"></script>
-        <script src="/assets/js/bootstrap.min.js"></script>
-        <script src="/assets/js/detect.js"></script>
-        <script src="/assets/js/fastclick.js"></script>
-        <script src="/assets/js/jquery.slimscroll.js"></script>
-        <script src="/assets/js/jquery.blockUI.js"></script>
-        <script src="/assets/js/waves.js"></script>
-        <script src="/assets/js/wow.min.js"></script>
-        <script src="/assets/js/jquery.nicescroll.js"></script>
-        <script src="/assets/js/jquery.scrollTo.min.js"></script>
+        <script src="/assets/adminto/js/jquery.min.js"></script>
+        <script src="/assets/adminto/js/bootstrap.min.js"></script>
+        <script src="/assets/adminto/js/detect.js"></script>
+        <script src="/assets/adminto/js/fastclick.js"></script>
+        <script src="/assets/adminto/js/jquery.slimscroll.js"></script>
+        <script src="/assets/adminto/js/jquery.blockUI.js"></script>
+        <script src="/assets/adminto/js/waves.js"></script>
+        <script src="/assets/adminto/js/wow.min.js"></script>
+        <script src="/assets/adminto/js/jquery.nicescroll.js"></script>
+        <script src="/assets/adminto/js/jquery.scrollTo.min.js"></script>
 
 
         <!-- App js -->
-        <script src="/assets/js/jquery.core.js"></script>
-        <script src="/assets/js/jquery.app.js"></script>
-
-    </body>
-	
-
-	
+        <script src="/assets/adminto/js/jquery.core.js"></script>
+        <script src="/assets/adminto/js/jquery.app.js"></script>
 	<?php foreach($js_files as $file): ?>
 	<script src="<?php echo $file; ?>"></script>
 	<?php endforeach; ?>
+
 </body>
 </html>
