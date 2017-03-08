@@ -74,7 +74,7 @@
         ),
         array(
             '<span class="paging-starts">1</span>',
-            '<span class="paging-ends">10</span>',
+            '<span class="paging-ends">'.$this->config->default_per_page.'</span>',
             '<span class="current-total-results">'. $this->get_total_results() . '</span>'
         ),
         $this->l('list_displaying'));

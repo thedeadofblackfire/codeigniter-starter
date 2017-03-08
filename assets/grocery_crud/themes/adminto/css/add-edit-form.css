@@ -42,3 +42,5 @@
 select.chosen-select {
   min-width: 100px;
 }
+
+.error {color:#fff;}
