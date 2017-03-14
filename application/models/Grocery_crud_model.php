@@ -16,10 +16,20 @@
  * @author     	John Skoumbourdis <scoumbourdisj@gmail.com>
  */
 
+//http://www.grocerycrud.com/forums/topic/1963-simple-guide-to-executing-custom-queries/
+//https://expressionengine.com/forums/archive/topic/216656/what-is-the-best-way-to-create-a-temporary-table
+ 
 class Grocery_crud_model extends Grocery_crud_model_original {
  
     protected $_debug = true;
 	protected $optimized_sql = array();
+	
+	protected $custom_query_str = ''; 
+	protected $custom_query_order = ''; 
+	protected $custom_query_limit = '';
+	protected $custom_query_detect_where = false;	
+	protected $is_query_custom = false;
+	
 	
 	function __construct() {
 		parent::__construct();
@@ -27,13 +37,85 @@ class Grocery_crud_model extends Grocery_crud_model_original {
 		$this->load->library('console');
 	}
  
+	public function set_custom_query($query_str) {
+		// we use sub query to evit ambigous column
+		$this->custom_query_str = "SELECT * FROM (".$query_str.") as q";
+		$this->is_query_custom = true;
+	}
+	
+	function _detect_prefix($prefix) {
+		if (!$this->custom_query_detect_where) {
+			$this->custom_query_detect_where = true;
+			return 'WHERE';
+		} else return $prefix;
+	}
+	
+	function get_list()
+    {
+		if ($this->is_query_custom) {	
+			$my_query = $this->custom_query_str;
+			if (!empty($this->custom_query_order)) $my_query .= ' '.$this->custom_query_order;
+			if (!empty($this->custom_query_limit)) $my_query .= ' '.$this->custom_query_limit;
+			
+			if ($this->_debug) Console::log('get_list '.$my_query);
+	 
+			$query = $this->db->query($my_query);
+			
+			$results_array = $query->result();
+			
+			return $results_array;			
+		} else {
+		
+			if($this->table_name === null)
+				return false;
+
+			$select = "`{$this->table_name}`.*";
+
+			//set_relation special queries
+			if(!empty($this->relation))
+			{			 
+				foreach($this->relation as $relation)
+				{
+					list($field_name , $related_table , $related_field_title) = $relation;
+					$unique_join_name = $this->_unique_join_name($field_name);
+					$unique_field_name = $this->_unique_field_name($field_name);
+
+					if(strstr($related_field_title,'{'))
+					{
+						$related_field_title = str_replace(" ","&nbsp;",$related_field_title);
+						$select .= ", CONCAT('".str_replace(array('{','}'),array("',COALESCE({$unique_join_name}.",", ''),'"),str_replace("'","\\'",$related_field_title))."') as $unique_field_name";
+					}
+					else
+					{
+						$select .= ", $unique_join_name.$related_field_title AS $unique_field_name";
+					}
+
+					if($this->field_exists($related_field_title))
+						$select .= ", `{$this->table_name}`.$related_field_title AS '{$this->table_name}.$related_field_title'";
+				}
+			}
+
+			//set_relation_n_n special queries. We prefer sub queries from a simple join for the relation_n_n as it is faster and more stable on big tables.
+			if(!empty($this->relation_n_n))
+			{
+				$select = $this->relation_n_n_queries($select);
+			}
+
+			$this->db->select($select, false);
+
+			$results = $this->db->get($this->table_name)->result();
+
+			return $results;
+		}
+    }
+	
 	function get_field_types_basic_table()
     {		
 		if (!isset($this->optimized_sql['show_columns_'.$this->table_name])) {
 			if ($this->_debug) Console::log('show column '.$this->table_name);		
 			$this->optimized_sql['show_columns_'.$this->table_name] = $this->db->query("SHOW COLUMNS FROM `{$this->table_name}`")->result();
 		}
-				
+		
 		if ($this->_debug) Console::log('get_field_types_basic_table '.count($this->optimized_sql['show_columns_'.$this->table_name]));	
 	
     	$db_field_types = array();
@@ -82,26 +164,37 @@ class Grocery_crud_model extends Grocery_crud_model_original {
 	
 	function get_total_results()
     {
-        // A fast way to calculate the total results
-        $key = $this->get_primary_key();
-
-    	//set_relation_n_n special queries. We prefer sub queries from a simple join for the relation_n_n as it is faster and more stable on big tables.
-    	if(!empty($this->relation_n_n))
-    	{
-    		$select = "{$this->table_name}." . $key;
-    		$select = $this->relation_n_n_queries($select);
-
-    		$this->db->select($select,false);
-    	} else {
-            $this->db->select($this->table_name . '.' . $key);
-        }
-        
-		if (!isset($this->optimized_sql['total_results_'.$this->table_name])) {
-			if ($this->_debug) Console::log('total_results '.$this->table_name);		
-			$this->optimized_sql['total_results_'.$this->table_name] = $this->db->get($this->table_name)->num_rows();
-		}
+		if ($this->is_query_custom) {			
+			if (!isset($this->optimized_sql['total_results_'.$this->table_name])) {
+				if ($this->_debug) Console::log('total_results '.$this->table_name);		
+				$this->optimized_sql['total_results_'.$this->table_name] = $this->db->query($this->custom_query_str)->num_rows();
+			}
+			
+			return $this->optimized_sql['total_results_'.$this->table_name];
+			
+		} else {
 		
-        return $this->optimized_sql['total_results_'.$this->table_name];
+			// A fast way to calculate the total results
+			$key = $this->get_primary_key();
+
+			//set_relation_n_n special queries. We prefer sub queries from a simple join for the relation_n_n as it is faster and more stable on big tables.
+			if(!empty($this->relation_n_n))
+			{
+				$select = "{$this->table_name}." . $key;
+				$select = $this->relation_n_n_queries($select);
+
+				$this->db->select($select,false);
+			} else {
+				$this->db->select($this->table_name . '.' . $key);
+			}
+			
+			if (!isset($this->optimized_sql['total_results_'.$this->table_name])) {
+				if ($this->_debug) Console::log('total_results '.$this->table_name);		
+				$this->optimized_sql['total_results_'.$this->table_name] = $this->db->get($this->table_name)->num_rows();
+			}
+			
+			return $this->optimized_sql['total_results_'.$this->table_name];
+		}
     }
 	
 	function optimize_field_data($table_name) {
@@ -112,8 +205,71 @@ class Grocery_crud_model extends Grocery_crud_model_original {
 		return $this->optimized_sql['field_data_'.$table_name];
 	}
 	
-}
+	/* Adding this does the trick for limiting the results per page! */	
+    function limit($value, $offset = '')
+	{
+		if ($this->is_query_custom) {
+			$this->custom_query_limit .= ' LIMIT '.($offset ? $offset.', ' : '').$value;
+		} else {
+			$this->db->limit( $value , $offset );
+		}
+    }
+	
+	function order_by($order_by, $direction) 
+	{		
+		if ($this->is_query_custom) {
+			$prefix = (empty($this->custom_query_order)) ? 'ORDER BY' : ',';
+			$this->custom_query_order .= " ".$prefix." ".$order_by." ".$direction;
+		} else {
+			$this->db->order_by( $order_by , $direction );		
+		}
+    }
+		
+    function where($key, $value = NULL, $escape = TRUE)
+    {
+		if ($this->is_query_custom) {
+			$prefix = $this->_detect_prefix('AND');
+			$this->custom_query_str .= " ".$prefix." ".$key." = '".$value."'";
+    	} else {
+			$this->db->where( $key, $value, $escape);
+		}
+    }
 
+    function or_where($key, $value = NULL, $escape = TRUE)
+    {
+		if ($this->is_query_custom) {
+			$prefix = $this->_detect_prefix('OR');
+			$this->custom_query_str .= " ".$prefix." ".$key." = '".$value."'";
+    	} else {
+			$this->db->or_where( $key, $value, $escape);
+		}
+    }
+	
+	function like($field, $match = '', $side = 'both')
+    {
+		if ($this->is_query_custom) {
+			$prefix = $this->_detect_prefix('AND');
+			if ($side == 'both') $this->custom_query_str .= " ".$prefix." `".$field."` LIKE '%".$this->db->escape_like_str($match)."%' ESCAPE '!'";
+			else if ($side == 'before') $this->custom_query_str .= " ".$prefix." `".$field."` LIKE '%".$this->db->escape_like_str($match)."' ESCAPE '!'";  
+			else if ($side == 'after') $this->custom_query_str .= " ".$prefix." `".$field."` LIKE '".$this->db->escape_like_str($match)."%' ESCAPE '!'";
+		} else {
+			$this->db->like($field, $match, $side);
+		}
+    }
+		
+    function or_like($field, $match = '', $side = 'both')
+    {
+		if ($this->is_query_custom) {
+			$prefix = $this->_detect_prefix('OR');
+			if ($side == 'both') $this->custom_query_str .= " ".$prefix." `".$field."` LIKE '%".$this->db->escape_like_str($match)."%' ESCAPE '!'"; 
+			else if ($side == 'before') $this->custom_query_str .= " ".$prefix." `".$field."` LIKE '%".$this->db->escape_like_str($match)."' ESCAPE '!'";
+			else if ($side == 'after') $this->custom_query_str .= " ".$prefix." `".$field."` LIKE '".$this->db->escape_like_str($match)."%' ESCAPE '!'";
+    	} else {
+			$this->db->or_like($field, $match, $side);
+		}
+    }	
+	
+}
 
 // ------------------------------------------------------------------------
 
@@ -137,8 +293,6 @@ class Grocery_crud_model_original  extends CI_Model  {
 	function __construct()
     {
         parent::__construct();
-		
-		$this->load->library('console');
     }
 
     function db_table_exists($table_name = null)
@@ -291,7 +445,7 @@ class Grocery_crud_model_original  extends CI_Model  {
     	} else {
             $this->db->select($this->table_name . '.' . $key);
         }
-        Console::log($key);
+
         return $this->db->get($this->table_name)->num_rows();
     }
 

@@ -30,6 +30,7 @@
 	// -----------------
 	// custom stuff here
 	$grocery_custom = $_SESSION['grocery_custom'];
+	//$button_custom_class = 'btn-xs';
 	// -----------------
 
     $colspans = (count($columns) + 2);
@@ -74,7 +75,7 @@
         ),
         array(
             '<span class="paging-starts">1</span>',
-            '<span class="paging-ends">'.$this->config->default_per_page.'</span>',
+            '<span class="paging-ends">'.(($this->get_total_results() < $this->config->default_per_page) ? $this->get_total_results() : $this->config->default_per_page ).'</span>',
             '<span class="current-total-results">'. $this->get_total_results() . '</span>'
         ),
         $this->l('list_displaying'));

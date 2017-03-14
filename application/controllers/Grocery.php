@@ -31,7 +31,48 @@ class Grocery extends CI_Controller {
 
 	public function index()
 	{
-		$this->_example_output((object)array('output' => '' , 'js_files' => array() , 'css_files' => array()));
+		//$this->_example_output((object)array('output' => '' , 'js_files' => array() , 'css_files' => array()));
+		
+		try{
+			$crud = new Grocery_CRUD_custom();
+			
+			//$crud->set_model('custom_query_model');
+			$crud->set_table('customers');
+			$crud->columns('customerName','contactLastName','phone','city','country','salesRepEmployeeNumber','creditLimit');
+			
+			//$crud->set_crud_url_path(site_url('admin/settings/index'));
+			$crud->set_crud_url_path('/grocery/index', '/grocery/index');
+			
+			$crud->display_as('salesRepEmployeeNumber','from Employeer')
+				 ->display_as('customerName','Name')
+				 ->display_as('contactLastName','Last Name');
+				 
+			$crud->set_subject('Customer', 'Customers');
+			$crud->set_relation('salesRepEmployeeNumber','employees','lastName');
+			
+			$crud->set_button_main('<button class="btn btn-primary">test</button>');
+			$crud->set_button_toolbar('<a class="btn btn-warning t5" href="/"><i class="fa fa-cloud-download floatL t3"></i> <span class="hidden-xs floatL l5">test</span><div class="clear"></div></a>');
+			//$crud->unset_search();
+			//$crud->unset_minimize();
+			//$crud->unset_fullscreen();
+			//$crud->set_shortcut('<div class="dropdown pull-right"><a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false"><i class="zmdi zmdi-more-vert"></i></a><ul class="dropdown-menu" role="menu"><li><a href="#">Action</a></li><li class="divider"></li><li><a href="#">Separated link</a></li></ul></div>');
+			//$crud->set_shortcut('<button type="button" class="btn btn-default waves-effect">Left</button><button type="button" class="btn btn-default waves-effect">Middle</button><button type="button" class="btn btn-default waves-effect">Right</button>');
+			
+			/*
+			$crud->unset_add();
+			$crud->unset_delete();
+			$crud->unset_edit();
+			$crud->unset_read();
+			*/
+			
+			$output = $crud->render();
+
+			$this->_example_output($output);
+
+		}catch(Exception $e){
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+		
 	}
 
 	public function offices_management()
@@ -82,6 +123,9 @@ class Grocery extends CI_Controller {
 			//$crud->set_model('custom_query_model');
 			$crud->set_table('customers');
 			$crud->columns('customerName','contactLastName','phone','city','country','salesRepEmployeeNumber','creditLimit');
+			
+			//$crud->set_crud_url_path(site_url('admin/settings/index'));
+			//$crud->set_crud_url_path('/admin/settings/index', '/admin/settings');
 			
 			$crud->display_as('salesRepEmployeeNumber','from Employeer')
 				 ->display_as('customerName','Name')
